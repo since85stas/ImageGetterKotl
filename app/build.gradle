@@ -8,6 +8,9 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
+    dataBinding {
+        enabled = true
+    }
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "stas.batura.imagegetterkotl"

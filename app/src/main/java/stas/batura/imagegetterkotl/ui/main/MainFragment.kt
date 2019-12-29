@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.main_fragment.*
 import stas.batura.imagegetterkotl.R
 import stas.batura.imagegetterkotl.data.net.RetrofitClient
+import stas.batura.imagegetterkotl.databinding.MainFragmentBinding
 
 class MainFragment : Fragment() {
 
@@ -23,13 +24,24 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+
+        // получаем вью модель
+        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+
+        // настраиаваем связывание
+        val bindings = MainFragmentBinding.inflate(inflater)
+        bindings.mainFragmentModel = this.viewModel
+        bindings.lifecycleOwner = this
+
+        return bindings.root
     }
 
+    /*
+        вызывается после создания контекста
+     */
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        // TODO: Use the ViewModel
+
 
         RetrofitClient.getBitmapFrom("cat") {
             print(it.toString())
