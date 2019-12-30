@@ -17,12 +17,13 @@
 
         <ImageView
             android:id="@+id/cat_image_view"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="400dp"
+            android:layout_height="400dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:visibility="gone"
+            catImage="@{mainFragmentModel.imagetBit}"
             ></ImageView>
 
         <ImageView
@@ -36,7 +37,7 @@
             imageStatus="@{mainFragmentModel.imageStatus}"
             />
 
-        <TextView
+        <Button
             android:id="@+id/test_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,7 +47,10 @@
             app:layout_constraintHorizontal_bias="0.433"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cat_image_view"
-            app:layout_constraintVertical_bias="0.415" />
+            app:layout_constraintVertical_bias="0.415"
+            android:onClick="@{() -> mainFragmentModel.onLoadImageClicked()}"
+            getButtonStatus="@{mainFragmentModel.buttonClicked}"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

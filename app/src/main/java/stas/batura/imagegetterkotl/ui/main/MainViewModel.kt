@@ -16,12 +16,17 @@ class MainViewModel : ViewModel() {
     val imageStatus: LiveData<ImageApiStatus>
         get() = _imageStatus
 
-    private val _imageBit : MutableLiveData<Bitmap> =MutableLiveData()
+    private val _imageBit : MutableLiveData<Bitmap> = MutableLiveData()
     val imagetBit : LiveData<Bitmap>
         get() = _imageBit
 
+    private val _buttonCliked:MutableLiveData<Boolean> = MutableLiveData()
+    val buttonClicked: LiveData<Boolean>
+        get() = _buttonCliked
+
     init {
-        getNewImageFromInternet("")
+//        getNewImageFromInternet("")
+        _buttonCliked.value = false
     }
 
 
@@ -30,13 +35,26 @@ class MainViewModel : ViewModel() {
         try {
             RetrofitClient.getBitmapFrom("cat") {
                 print(it.toString())
-                _imageStatus.value = ImageApiStatus.DONE
-                _imageBit.value = it
+                if (it != null) {
+                    _imageStatus.value = ImageApiStatus.DONE
+                    _imageBit.value = it
+                } else {
+                    _imageStatus.value = ImageApiStatus.ERROR
+                }
             }
-
         } catch (e:Exception) {
             print(e.toString())
             _imageStatus.value = ImageApiStatus.ERROR
+        } finally {
+            _buttonCliked.value = false
         }
     }
+
+   fun onLoadImageClicked() {
+        if ( !_buttonCliked.value!! ) {
+            _buttonCliked.value = true
+            getNewImageFromInternet("")
+        }
+    }
+
 }

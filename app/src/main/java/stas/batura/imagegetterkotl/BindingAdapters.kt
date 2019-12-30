@@ -17,7 +17,9 @@
 
 package stas.batura.imagegetterkotl
 
+import android.graphics.Bitmap
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
@@ -60,5 +62,22 @@ fun bindStatus(statusImageView: ImageView, status: ImageApiStatus?) {
         ImageApiStatus.DONE -> {
             statusImageView.visibility = View.GONE
         }
+    }
+}
+
+@BindingAdapter("catImage")
+fun bindImage(catImageView: ImageView, bitmap: Bitmap?) {
+    if (bitmap != null) {
+        catImageView.visibility = View.VISIBLE
+        catImageView.setImageBitmap(bitmap!!)
+    }
+}
+
+@BindingAdapter("getButtonStatus")
+fun bindButtonStatus(button:Button, status: Boolean) {
+    if (status) {
+        button.visibility = View.INVISIBLE
+    } else{
+        button.visibility = View.VISIBLE
     }
 }
