@@ -65,13 +65,15 @@ fun bindStatus(statusImageView: ImageView, status: ImageApiStatus?) {
     }
 }
 
+
 @BindingAdapter("catImage")
 fun bindImage(catImageView: ImageView, bitmap: Bitmap?) {
     if (bitmap != null) {
         catImageView.visibility = View.VISIBLE
-        catImageView.setImageBitmap(bitmap!!)
+        catImageView.setImageBitmap(bitmap)
     }
 }
+
 
 @BindingAdapter("getButtonStatus")
 fun bindButtonStatus(button:Button, status: Boolean) {
@@ -81,3 +83,5 @@ fun bindButtonStatus(button:Button, status: Boolean) {
         button.visibility = View.VISIBLE
     }
 }
+
+

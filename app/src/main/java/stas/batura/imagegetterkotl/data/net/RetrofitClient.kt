@@ -39,6 +39,7 @@ object RetrofitClient {
                 val bytes = response.body()!!.bytes()
                 onComplete(BitmapFactory.decodeByteArray(bytes, 0, bytes.size))
             }
+
         })
     }
 }

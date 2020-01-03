@@ -24,9 +24,14 @@ class MainViewModel : ViewModel() {
     val buttonClicked: LiveData<Boolean>
         get() = _buttonCliked
 
+    private val _shareButtonCliked:MutableLiveData<Boolean> = MutableLiveData()
+    val shareButtonCliked: LiveData<Boolean>
+        get() = _shareButtonCliked
+
     init {
 //        getNewImageFromInternet("")
         _buttonCliked.value = false
+        _shareButtonCliked.value = false
     }
 
 
@@ -47,6 +52,9 @@ class MainViewModel : ViewModel() {
             _imageStatus.value = ImageApiStatus.ERROR
         } finally {
             _buttonCliked.value = false
+
+            // TODO:
+            _shareButtonCliked.value  = false
         }
     }
 
@@ -57,4 +65,16 @@ class MainViewModel : ViewModel() {
         }
     }
 
+    fun onShareImageClicked() {
+        if (!_shareButtonCliked.value!!) {
+            _shareButtonCliked.value = true
+        }
+    }
+
+    /*
+       поделиться фоткой
+     */
+    private fun onShareClicked() {
+        print("onShare")
+    }
 }

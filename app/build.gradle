@@ -68,4 +68,8 @@ dependencies {
     // glide
     implementation 'com.github.bumptech.glide:glide:4.9.0'
 
+    // -- Coroutines
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
 }

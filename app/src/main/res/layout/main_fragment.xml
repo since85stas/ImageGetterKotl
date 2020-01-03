@@ -52,5 +52,19 @@
             getButtonStatus="@{mainFragmentModel.buttonClicked}"
             />
 
+        <Button
+            android:id="@+id/share_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="share"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.433"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/test_view"
+            app:layout_constraintVertical_bias="0.415"
+            android:onClick="@{() -> mainFragmentModel.onShareImageClicked()}"
+            />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
