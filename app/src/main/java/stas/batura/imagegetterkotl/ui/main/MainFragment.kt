@@ -26,7 +26,6 @@ import java.io.IOException
 
 class MainFragment : Fragment() {
 
-    private final val MY_PERMISSIONS_REQUEST_READ_EXT_STOR = 11
     private final val MY_PERMISSIONS_REQUEST_WRITE_EXT_STOR = 12
 
 
@@ -41,8 +40,11 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
+        // получаем фабрику для модели
+        val mainViewModelFactory = MainViewModelFactory(requireActivity().application)
+
         // получаем вью модель
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProviders.of(this,mainViewModelFactory).get(MainViewModel::class.java)
 
         // настраиаваем связывание
         val bindings = MainFragmentBinding.inflate(inflater)
@@ -51,7 +53,7 @@ class MainFragment : Fragment() {
 
         viewModel.shareButtonCliked.observe(this, Observer{
             if (it) {
-                shareImage()
+                checkPermissions()
             }
         })
 
@@ -61,48 +63,24 @@ class MainFragment : Fragment() {
     /*
         вызывается после создания контекста
      */
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
 
 
-        RetrofitClient.getBitmapFrom("cat") {
-            print(it.toString())
-            cat_image_view.setImageBitmap(it)
-        }
-    }
-
+    /*
+     поделиться фото
+     */
     fun shareImage() {
         checkPermissions()
         val shareIntent: Intent = Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_STREAM, getLocalBitmapUri(viewModel.imagetBit.value!!))
+            putExtra(Intent.EXTRA_STREAM, viewModel.getLocalBitmapUri())
             type = "image/jpeg"
         }
         startActivity(Intent.createChooser(shareIntent, "iamge"))
     }
 
-    fun getLocalBitmapUri(bitmap: Bitmap): Uri? {
-        // Store image to default external storage directory
-        var bmpUri: Uri? = null
-        try {
-            val file = File(
-                Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_DOWNLOADS
-                ), "share_image_" + System.currentTimeMillis() + ".png"
-            )
-            file.getParentFile().mkdirs()
-            val out = FileOutputStream(file)
-            bitmap.compress(Bitmap.CompressFormat.PNG, 90, out)
-            out.flush()
-            out.close()
-            bmpUri = FileProvider.getUriForFile(context!!, requireActivity().packageName +".fileprovider", file);
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-
-        return bmpUri
-    }
-
+    /*
+    проверяем разрешения и если все ок - передаем фото
+    */
     private fun checkPermissions() {
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(this.context!!,
@@ -128,6 +106,7 @@ class MainFragment : Fragment() {
             }
         } else {
             // Permission has already been granted
+            shareImage()
         }
     }
 
@@ -139,6 +118,7 @@ class MainFragment : Fragment() {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
+                    shareImage()
                 } else {
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
