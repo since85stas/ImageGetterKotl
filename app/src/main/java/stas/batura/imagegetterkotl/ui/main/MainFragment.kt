@@ -17,6 +17,7 @@ import android.net.Uri
 import android.os.Environment
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.lifecycle.Observer
 import java.io.File
 import java.io.FileOutputStream
@@ -26,6 +27,7 @@ import java.io.IOException
 class MainFragment : Fragment() {
 
     private final val MY_PERMISSIONS_REQUEST_READ_EXT_STOR = 11
+    private final val MY_PERMISSIONS_REQUEST_WRITE_EXT_STOR = 12
 
 
     companion object {
@@ -91,8 +93,9 @@ class MainFragment : Fragment() {
             file.getParentFile().mkdirs()
             val out = FileOutputStream(file)
             bitmap.compress(Bitmap.CompressFormat.PNG, 90, out)
+            out.flush()
             out.close()
-            bmpUri = Uri.fromFile(file)
+            bmpUri = FileProvider.getUriForFile(context!!, requireActivity().packageName +".fileprovider", file);
         } catch (e: IOException) {
             e.printStackTrace()
         }
@@ -103,21 +106,21 @@ class MainFragment : Fragment() {
     private fun checkPermissions() {
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(this.context!!,
-                Manifest.permission.READ_EXTERNAL_STORAGE)
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
             != PackageManager.PERMISSION_GRANTED) {
 
             // Permission is not granted
             // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(),
-                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
             } else {
                 // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(requireActivity(),
-                    arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
-                    MY_PERMISSIONS_REQUEST_READ_EXT_STOR)
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    MY_PERMISSIONS_REQUEST_WRITE_EXT_STOR)
 
                 // MY_PERMISSIONS_REQUEST_READ_EXT_STOR is an
                 // app-defined int constant. The callback method gets the
@@ -131,7 +134,7 @@ class MainFragment : Fragment() {
     override fun onRequestPermissionsResult(requestCode: Int,
                                             permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
-            MY_PERMISSIONS_REQUEST_READ_EXT_STOR -> {
+            MY_PERMISSIONS_REQUEST_WRITE_EXT_STOR -> {
                 // If request is cancelled, the result arrays are empty.
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     // permission was granted, yay! Do the
