@@ -44,14 +44,14 @@ class MainFragment : Fragment() {
         val mainViewModelFactory = MainViewModelFactory(requireActivity().application)
 
         // получаем вью модель
-        viewModel = ViewModelProviders.of(this,mainViewModelFactory).get(MainViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, mainViewModelFactory).get(MainViewModel::class.java)
 
         // настраиаваем связывание
         val bindings = MainFragmentBinding.inflate(inflater)
         bindings.mainFragmentModel = this.viewModel
         bindings.lifecycleOwner = this
 
-        viewModel.shareButtonCliked.observe(this, Observer{
+        viewModel.shareButtonCliked.observe(this, Observer {
             if (it) {
                 checkPermissions()
             }
@@ -69,7 +69,7 @@ class MainFragment : Fragment() {
      поделиться фото
      */
     fun shareImage() {
-        checkPermissions()
+//        checkPermissions()
         val shareIntent: Intent = Intent().apply {
             action = Intent.ACTION_SEND
             putExtra(Intent.EXTRA_STREAM, viewModel.getLocalBitmapUri())
@@ -83,35 +83,26 @@ class MainFragment : Fragment() {
     */
     private fun checkPermissions() {
         // Here, thisActivity is the current activity
-        if (ContextCompat.checkSelfPermission(this.context!!,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED) {
-
-            // Permission is not granted
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(),
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-            } else {
-                // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(requireActivity(),
-                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                    MY_PERMISSIONS_REQUEST_WRITE_EXT_STOR)
-
-                // MY_PERMISSIONS_REQUEST_READ_EXT_STOR is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
+        if (ContextCompat.checkSelfPermission(
+                this.context!!,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            requestPermissions(
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                MY_PERMISSIONS_REQUEST_WRITE_EXT_STOR
+            )
         } else {
             // Permission has already been granted
             shareImage()
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>, grantResults: IntArray
+    ) {
         when (requestCode) {
             MY_PERMISSIONS_REQUEST_WRITE_EXT_STOR -> {
                 // If request is cancelled, the result arrays are empty.

@@ -36,6 +36,8 @@
             app:layout_constraintTop_toTopOf="parent"
             android:visibility="visible"
             imageStatus="@{mainFragmentModel.imageStatus}"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
             />
 
         <Button
