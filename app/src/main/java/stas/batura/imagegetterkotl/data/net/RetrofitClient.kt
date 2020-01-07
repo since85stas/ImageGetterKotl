@@ -7,6 +7,7 @@ import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Url
 
 
@@ -17,15 +18,19 @@ object RetrofitClient {
     }
 
     private interface API {
-        @GET
-        fun getImageData(@Url url: String): Call<ResponseBody>
+        @GET ("cat")
+        fun getSimpleCat(): Call<ResponseBody>
+
+        @GET ("cat/says/{sentence}")
+        fun getSayingCat(@Path ("sentence") value: String) : Call<ResponseBody>
     }
 
     private val api : API by lazy  { provideRetrofit().create(API::class.java) }
 
     fun getBitmapFrom(url: String, onComplete: (Bitmap?) -> Unit) {
 
-        api.getImageData(url).enqueue(object : retrofit2.Callback<ResponseBody> {
+
+        api.getSimpleCat().enqueue(object : retrofit2.Callback<ResponseBody> {
 
             override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
                 onComplete(null)

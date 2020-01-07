@@ -50,7 +50,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     private fun getNewImageFromInternet (properties : String) {
         _imageStatus.value = ImageApiStatus.LOADING
         try {
-            RetrofitClient.getBitmapFrom("cat") {
+            RetrofitClient.getBitmapFrom("j") {
                 print(it.toString())
                 if (it != null) {
                     _imageStatus.value = ImageApiStatus.DONE
