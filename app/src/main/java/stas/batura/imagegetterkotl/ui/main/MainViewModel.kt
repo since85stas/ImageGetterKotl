@@ -2,8 +2,10 @@ package stas.batura.imagegetterkotl.ui.main
 
 import android.app.Application
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Environment
+import android.util.Log
 import androidx.core.content.FileProvider
 import androidx.core.net.toFile
 import androidx.lifecycle.AndroidViewModel
@@ -11,6 +13,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.android.synthetic.main.main_fragment.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import stas.batura.imagegetterkotl.data.net.RetrofitClient
 import java.io.File
 import java.io.FileOutputStream
@@ -44,6 +50,12 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         _shareButtonCliked.value = false
     }
 
+    // Create a Coroutine scope using a job to be able to cancel when needed
+    private var viewModelJob = Job()
+
+    // the Coroutine runs using the Main (UI) dispatcher
+    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
+
     /*
         Загрузка новой фотки из интернета
      */
@@ -68,12 +80,55 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     /*
+     загрузка простой фотки из интеренета с использованием Corutines
+     */
+    private fun getNewImageFromInetCorutines() {
+        coroutineScope.launch {
+            val resultDeffered = RetrofitClient.netApi.retrofitServise.getSimpleCat()
+            try {
+                _imageStatus.value = ImageApiStatus.LOADING
+                val bytes = resultDeffered.await().bytes()
+                _imageBit.value = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                _imageStatus.value = ImageApiStatus.DONE
+
+            } catch (e:Exception) {
+                Log.d("eee",e.toString())
+                _imageStatus.value = ImageApiStatus.ERROR
+            } finally {
+                Log.d("eee","finally")
+            }
+        }
+    }
+
+    /*
+    загрузка простой фотки из интеренета с использованием Corutines
+    */
+    private fun getNewImageSainngFromInetCorutines(string: String) {
+        coroutineScope.launch {
+            val resultDeffered = RetrofitClient.netApi.retrofitServise.getSayingCat(string)
+            try {
+                _imageStatus.value = ImageApiStatus.LOADING
+                val bytes = resultDeffered.await().bytes()
+                _imageBit.value = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+                _imageStatus.value = ImageApiStatus.DONE
+
+            } catch (e:Exception) {
+                Log.d("eee",e.toString())
+                _imageStatus.value = ImageApiStatus.ERROR
+            } finally {
+                Log.d("eee","finally")
+            }
+        }
+    }
+
+    /*
     вызывается при нажатии на кнопку загрузки
      */
    fun onLoadImageClicked() {
         if ( !_buttonCliked.value!! ) {
             _buttonCliked.value = true
-            getNewImageFromInternet("")
+//            getNewImageFromInternet("")
+            getNewImageFromInetCorutines()
         }
     }
 
