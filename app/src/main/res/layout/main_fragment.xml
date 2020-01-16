@@ -4,70 +4,99 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="mainFragmentModel"
-            type="stas.batura.imagegetterkotl.ui.main.MainViewModel" />
+                <variable
+                    name="mainFragmentModel"
+                    type="stas.batura.imagegetterkotl.ui.main.MainViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/main"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.main.MainFragment">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/cat_image_view"
-            android:layout_width="400dp"
-            android:layout_height="400dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:visibility="gone"
-            catImage="@{mainFragmentModel.imagetBit}"
-            android:contentDescription="cat_photo"
-            />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ui.main.MainFragment">
 
-        <ImageView
-            android:id="@+id/status_image"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:visibility="visible"
-            imageStatus="@{mainFragmentModel.imageStatus}"
-            android:adjustViewBounds="true"
-            android:scaleType="fitXY"
-            />
+            <ImageView
+                android:id="@+id/cat_image_view"
+                catImage="@{mainFragmentModel.imagetBit}"
+                android:layout_width="400dp"
+                android:layout_height="400dp"
+                android:contentDescription="cat_photo"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/test_view"
+            <ImageView
+                android:id="@+id/status_image"
+                imageStatus="@{mainFragmentModel.imageStatus}"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <!--        <LinearLayout-->
+            <!--            android:layout_width="wrap_content"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            />-->
+
+
+            <TextView
+                android:id="@+id/cat_says"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="cat says:"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.433"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cat_image_view"
+                app:layout_constraintVertical_bias="0.415" />
+
+            <Button
+                android:id="@+id/test_view"
+                getButtonStatus="@{mainFragmentModel.buttonClicked}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> mainFragmentModel.onLoadImageClicked()}"
+                android:text="MainFragment"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.433"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cat_says"
+                app:layout_constraintVertical_bias="0.415" />
+
+            <Button
+                android:id="@+id/share_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> mainFragmentModel.onShareImageClicked()}"
+                android:text="share"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.433"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/test_view"
+                app:layout_constraintVertical_bias="0.415" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="MainFragment"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.433"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cat_image_view"
-            app:layout_constraintVertical_bias="0.415"
-            android:onClick="@{() -> mainFragmentModel.onLoadImageClicked()}"
+            android:layout_gravity="bottom|end"
+            app:srcCompat="@android:drawable/ic_dialog_email"
             getButtonStatus="@{mainFragmentModel.buttonClicked}"
+            android:onClick="@{() -> mainFragmentModel.onLoadImageClicked()}"
             />
 
-        <Button
-            android:id="@+id/share_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="share"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.433"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/test_view"
-            app:layout_constraintVertical_bias="0.415"
-            android:onClick="@{() -> mainFragmentModel.onShareImageClicked()}"
-            />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

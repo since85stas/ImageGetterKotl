@@ -18,7 +18,10 @@ import android.os.Environment
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import stas.batura.imagegetterkotl.R
+import stas.batura.imagegetterkotl.databinding.FragmentMainTopBinding
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -47,7 +50,10 @@ class MainFragment : Fragment() {
         viewModel = ViewModelProviders.of(this, mainViewModelFactory).get(MainViewModel::class.java)
 
         // настраиаваем связывание
-        val bindings = MainFragmentBinding.inflate(inflater)
+//        val bindings = MainFragmentBinding.inflate(inflater)
+        val bindings: MainFragmentBinding = DataBindingUtil.inflate(inflater,
+            R.layout.main_fragment,container,false)
+
         bindings.mainFragmentModel = this.viewModel
         bindings.lifecycleOwner = this
 
