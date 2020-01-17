@@ -42,32 +42,51 @@
 
         <Button
             android:id="@+id/test_view"
+            getButtonStatus="@{mainFragmentModel.buttonClicked}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{() -> mainFragmentModel.onLoadImageClicked()}"
             android:text="MainFragment"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.433"
+            app:layout_constraintHorizontal_bias="0.445"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cat_image_view"
-            app:layout_constraintVertical_bias="0.415"
-            android:onClick="@{() -> mainFragmentModel.onLoadImageClicked()}"
-            getButtonStatus="@{mainFragmentModel.buttonClicked}"
+            app:layout_constraintVertical_bias="0.424" />
+
+        <CheckBox
+            android:id="@+id/cat_says_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/share_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/test_view"
+            android:onClick="@{() -> mainFragmentModel.onSaysCheckBoxClicked()}"
+            />
+
+        <EditText
+            android:id="@+id/edit_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="text"
+            app:layout_constraintBottom_toTopOf="@+id/share_button"
+            app:layout_constraintTop_toBottomOf="@+id/cat_says_checkbox"
+            tools:layout_editor_absoluteX="140dp"
+            saysTextBoxState="@{mainFragmentModel.saysCheckBoxEnable}"
+            android:visibility="invisible"
             />
 
         <Button
             android:id="@+id/share_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{() -> mainFragmentModel.onShareImageClicked()}"
             android:text="share"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.433"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/test_view"
-            app:layout_constraintVertical_bias="0.415"
-            android:onClick="@{() -> mainFragmentModel.onShareImageClicked()}"
-            />
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

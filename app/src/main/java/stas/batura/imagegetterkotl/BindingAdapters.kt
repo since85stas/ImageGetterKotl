@@ -20,6 +20,7 @@ package stas.batura.imagegetterkotl
 import android.graphics.Bitmap
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
@@ -84,4 +85,16 @@ fun bindButtonStatus(button:Button, status: Boolean) {
     }
 }
 
+@BindingAdapter("saysTextBoxState")
+fun bindSaysEditTextState(editText: EditText, status: Boolean) {
+    if (status) {
+        editText.visibility = View.VISIBLE
+    } else{
+        editText.visibility = View.INVISIBLE
+    }
+}
 
+@BindingAdapter("android:text")
+fun bindEditText(editText: EditText, string: String) {
+
+}

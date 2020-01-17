@@ -5,9 +5,11 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Environment
+import android.text.TextWatcher
 import android.util.Log
 import androidx.core.content.FileProvider
 import androidx.core.net.toFile
+import androidx.databinding.ObservableField
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -22,6 +24,11 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.lang.Exception
+import android.text.Editable
+import androidx.annotation.NonNull
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+
+
 
 enum class ImageApiStatus { LOADING, ERROR, DONE }
 
@@ -45,10 +52,24 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     val shareButtonCliked: LiveData<Boolean>
         get() = _shareButtonCliked
 
+    private val _saysCheckBoxEnable:MutableLiveData<Boolean> = MutableLiveData()
+    val saysCheckBoxEnable: LiveData<Boolean>
+        get() = _saysCheckBoxEnable
+
+    private val _saysEditText: MutableLiveData<String> = MutableLiveData()
+    val saysEditText:LiveData<String>
+        get() = _saysEditText
+
+    var observableField: ObservableField<String> = ObservableField()
+
+
+
     init {
         _buttonCliked.value = false
         _shareButtonCliked.value = false
+        _saysCheckBoxEnable.value = false
     }
+
 
     // Create a Coroutine scope using a job to be able to cancel when needed
     private var viewModelJob = Job()
@@ -56,28 +77,6 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     // the Coroutine runs using the Main (UI) dispatcher
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-    /*
-        Загрузка новой фотки из интернета
-     */
-    private fun getNewImageFromInternet (properties : String) {
-        _imageStatus.value = ImageApiStatus.LOADING
-        try {
-            RetrofitClient.getBitmapFrom("j") {
-                print(it.toString())
-                if (it != null) {
-                    _imageStatus.value = ImageApiStatus.DONE
-                    _imageBit.value = it
-                } else {
-                    _imageStatus.value = ImageApiStatus.ERROR
-                }
-            }
-        } catch (e:Exception) {
-            print(e.toString())
-            _imageStatus.value = ImageApiStatus.ERROR
-        } finally {
-            _buttonCliked.value = false
-        }
-    }
 
     /*
      загрузка простой фотки из интеренета с использованием Corutines
@@ -101,9 +100,9 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     /*
-    загрузка простой фотки из интеренета с использованием Corutines
+    загрузка фотки с текстом из интеренета с использованием Corutines
     */
-    private fun getNewImageSainngFromInetCorutines(string: String) {
+    private fun getNewImageSayingFromInetCorutines(string: String) {
         coroutineScope.launch {
             val resultDeffered = RetrofitClient.netApi.retrofitServise.getSayingCat(string)
             try {
@@ -139,6 +138,14 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         if (!_shareButtonCliked.value!!) {
             _shareButtonCliked.value = true
         }
+    }
+
+    fun onSaysCheckBoxClicked() {
+        _saysCheckBoxEnable.value = !_saysCheckBoxEnable.value!!
+    }
+
+    fun changeEditTextValue(string: String) {
+        _saysEditText.value = string
     }
 
 

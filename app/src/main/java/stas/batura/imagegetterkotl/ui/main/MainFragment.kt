@@ -57,6 +57,10 @@ class MainFragment : Fragment() {
             }
         })
 
+//        viewModel.buttonClicked.observe(this, Observer {
+//
+//        })
+
         return bindings.root
     }
 
@@ -99,6 +103,9 @@ class MainFragment : Fragment() {
         }
     }
 
+    /*
+    проверяем ответ от
+     */
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>, grantResults: IntArray
