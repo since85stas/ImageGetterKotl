@@ -15,6 +15,7 @@ import stas.batura.imagegetterkotl.data.net.RetrofitClient
 import stas.batura.imagegetterkotl.databinding.MainFragmentBinding
 import android.net.Uri
 import android.os.Environment
+import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -54,6 +55,14 @@ class MainFragment : Fragment() {
         viewModel.shareButtonCliked.observe(this, Observer {
             if (it) {
                 checkPermissions()
+            }
+        })
+
+        viewModel.isShareButtonEnable.observe(this, Observer {
+            if (it) {
+                Log.d("eee","Enbl")
+            } else{
+                Log.d("eee","dis")
             }
         })
 

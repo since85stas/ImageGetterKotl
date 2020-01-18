@@ -19,12 +19,10 @@ package stas.batura.imagegetterkotl
 
 import android.graphics.Bitmap
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
+import stas.batura.imagegetterkotl.ui.main.EditTextWatcher
 import stas.batura.imagegetterkotl.ui.main.ImageApiStatus
 
 /**
@@ -94,7 +92,16 @@ fun bindSaysEditTextState(editText: EditText, status: Boolean) {
     }
 }
 
-@BindingAdapter("android:text")
-fun bindEditText(editText: EditText, string: String) {
+@BindingAdapter("shareButtonStatus")
+fun bindShareButonStatus(button: ImageButton,status: Boolean) {
+    if (status) {
+        button.visibility = View.VISIBLE
+    } else{
+        button.visibility = View.INVISIBLE
+    }
+}
 
+@BindingAdapter("addEditTextWather")
+fun bindEditText(editText: EditText, editTextWatcher: EditTextWatcher) {
+    editText.addTextChangedListener(editTextWatcher)
 }

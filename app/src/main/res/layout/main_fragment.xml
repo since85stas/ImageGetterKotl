@@ -75,13 +75,16 @@
             tools:layout_editor_absoluteX="140dp"
             saysTextBoxState="@{mainFragmentModel.saysCheckBoxEnable}"
             android:visibility="invisible"
+            addEditTextWather="@{mainFragmentModel.editTextWatcher}"
             />
 
-        <Button
+        <ImageButton
+            android:src="@drawable/ic_share_black_24dp"
             android:id="@+id/share_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="@{() -> mainFragmentModel.onShareImageClicked()}"
+            shareButtonStatus="@{mainFragmentModel.isShareButtonEnable()}"
             android:text="share"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
