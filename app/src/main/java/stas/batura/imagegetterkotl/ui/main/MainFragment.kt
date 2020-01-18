@@ -57,15 +57,6 @@ class MainFragment : Fragment() {
                 checkPermissions()
             }
         })
-
-        viewModel.isShareButtonEnable.observe(this, Observer {
-            if (it) {
-                Log.d("eee","Enbl")
-            } else{
-                Log.d("eee","dis")
-            }
-        })
-
 //        viewModel.buttonClicked.observe(this, Observer {
 //
 //        })
@@ -113,7 +104,7 @@ class MainFragment : Fragment() {
     }
 
     /*
-    проверяем ответ от
+    проверяем ответ от менеджара разрешений
      */
     override fun onRequestPermissionsResult(
         requestCode: Int,

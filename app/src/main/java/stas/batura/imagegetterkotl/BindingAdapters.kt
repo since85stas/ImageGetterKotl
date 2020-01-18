@@ -64,7 +64,9 @@ fun bindStatus(statusImageView: ImageView, status: ImageApiStatus?) {
     }
 }
 
-
+/**
+ * Загружает загруженную фотку в imageView
+ */
 @BindingAdapter("catImage")
 fun bindImage(catImageView: ImageView, bitmap: Bitmap?) {
     if (bitmap != null) {
@@ -73,7 +75,10 @@ fun bindImage(catImageView: ImageView, bitmap: Bitmap?) {
     }
 }
 
-
+/**
+ * Управляет видимостью кнопки загрузки, при начале загрузки кнопка скрывается
+ * после загрузки опять появляется
+ */
 @BindingAdapter("getButtonStatus")
 fun bindButtonStatus(button:Button, status: Boolean) {
     if (status) {
@@ -83,6 +88,10 @@ fun bindButtonStatus(button:Button, status: Boolean) {
     }
 }
 
+/**
+ * Управляет видимостью поля с вводом текста, при нажатии на checkBox поле появляется
+ * при отжатии пропадает
+ */
 @BindingAdapter("saysTextBoxState")
 fun bindSaysEditTextState(editText: EditText, status: Boolean) {
     if (status) {
@@ -92,6 +101,9 @@ fun bindSaysEditTextState(editText: EditText, status: Boolean) {
     }
 }
 
+/*
+
+ */
 @BindingAdapter("shareButtonStatus")
 fun bindShareButonStatus(button: ImageButton,status: Boolean) {
     if (status) {
@@ -101,6 +113,9 @@ fun bindShareButonStatus(button: ImageButton,status: Boolean) {
     }
 }
 
+/*
+    добавляем слушателя дял получения текста из EditText
+ */
 @BindingAdapter("addEditTextWather")
 fun bindEditText(editText: EditText, editTextWatcher: EditTextWatcher) {
     editText.addTextChangedListener(editTextWatcher)

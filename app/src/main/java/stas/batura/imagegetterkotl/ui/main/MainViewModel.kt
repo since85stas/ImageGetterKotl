@@ -32,51 +32,53 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
 
     private val _app: Application = app
 
+    // показывает результат загрузки каритнки из интернета
     private val _imageStatus: MutableLiveData<ImageApiStatus> = MutableLiveData()
     val imageStatus: LiveData<ImageApiStatus>
         get() = _imageStatus
 
+    // содержит загруженную картинку для представления в ui
     private val _imageBit: MutableLiveData<Bitmap> = MutableLiveData()
     val imagetBit: LiveData<Bitmap>
         get() = _imageBit
 
+    // предоставляет нажатие на кнопку загрузки
     private val _buttonCliked: MutableLiveData<Boolean> = MutableLiveData()
     val buttonClicked: LiveData<Boolean>
         get() = _buttonCliked
 
+    // предоставляет нажатие на кнопку поделиться фоткой
     private val _shareButtonCliked: MutableLiveData<Boolean> = MutableLiveData()
     val shareButtonCliked: LiveData<Boolean>
         get() = _shareButtonCliked
 
+    // предоставляет нажтие на checBox
     private val _saysCheckBoxEnable: MutableLiveData<Boolean> = MutableLiveData()
     val saysCheckBoxEnable: LiveData<Boolean>
         get() = _saysCheckBoxEnable
 
+    // отображает или скрывает кнопку поделиться
     private val _isShareButtonEnable: MutableLiveData<Boolean> = MutableLiveData()
     val isShareButtonEnable: LiveData<Boolean>
         get() {
             _isShareButtonEnable.value = _imageBit.value != null
             return _isShareButtonEnable
         }
-//    private val _saysEditText: MutableLiveData<String> = MutableLiveData()
-//    val saysEditText:LiveData<String>
-//        get() = _saysEditText
-//    object obs : Observer<Bitmap> {
-//    override fun onChanged(t: Bitmap?) {
-//        this@MainViewModel.
-//        Log.d("viewm", "df: ")
-//    }
-//    val observer: Observer<Bitmap> = object : Observer<Bitmap> ()
 
+    // обсервер отслеживает загрузку новой фотки
+    internal var obs: Observer<Bitmap> = Observer {
+        if (it != null)
+        this@MainViewModel._isShareButtonEnable.value = true
+    }
 
-
+    // обсервер для считывания текста из EditTextView
     val editTextWatcher: EditTextWatcher = EditTextWatcher()
 
     init {
         _buttonCliked.value = false
         _shareButtonCliked.value = false
         _saysCheckBoxEnable.value = false
-//        _imageBit.observeForever(obs)
+        _imageBit.observeForever(obs)
     }
 
 

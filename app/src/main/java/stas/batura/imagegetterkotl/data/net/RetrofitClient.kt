@@ -49,14 +49,6 @@ object RetrofitClient {
         }
     }
 
-    private interface API {
-        @GET ("cat")
-        fun getSimpleCat(): Call<ResponseBody>
-
-        @GET ("cat/says/{sentence}")
-        fun getSayingCat(@Path ("sentence") value: String) : Call<ResponseBody>
-    }
-
     interface API_COUR {
         @GET ("cat")
         fun getSimpleCat(): Deferred<ResponseBody>
@@ -65,26 +57,26 @@ object RetrofitClient {
         fun getSayingCat(@Path ("sentence") value: String) : Deferred<ResponseBody>
     }
 
-    private val api : API by lazy  { provideRetrofit().create(API::class.java) }
+//    private val api : API by lazy  { provideRetrofit().create(API::class.java) }
 
-    fun getBitmapFrom(url: String, onComplete: (Bitmap?) -> Unit) {
-
-
-        api.getSimpleCat().enqueue(object : retrofit2.Callback<ResponseBody> {
-
-            override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
-                onComplete(null)
-            }
-
-            override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
-                if (response == null || !response.isSuccessful || response.body() == null || response.errorBody() != null) {
-                    onComplete(null)
-                    return
-                }
-                val bytes = response.body()!!.bytes()
-                onComplete(BitmapFactory.decodeByteArray(bytes, 0, bytes.size))
-            }
-
-        })
-    }
+//    fun getBitmapFrom(url: String, onComplete: (Bitmap?) -> Unit) {
+//
+//
+//        api.getSimpleCat().enqueue(object : retrofit2.Callback<ResponseBody> {
+//
+//            override fun onFailure(call: Call<ResponseBody>?, t: Throwable?) {
+//                onComplete(null)
+//            }
+//
+//            override fun onResponse(call: Call<ResponseBody>?, response: Response<ResponseBody>?) {
+//                if (response == null || !response.isSuccessful || response.body() == null || response.errorBody() != null) {
+//                    onComplete(null)
+//                    return
+//                }
+//                val bytes = response.body()!!.bytes()
+//                onComplete(BitmapFactory.decodeByteArray(bytes, 0, bytes.size))
+//            }
+//
+//        })
+//    }
 }

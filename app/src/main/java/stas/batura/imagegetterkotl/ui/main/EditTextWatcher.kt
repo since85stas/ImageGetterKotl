@@ -3,6 +3,10 @@ package stas.batura.imagegetterkotl.ui.main
 import android.text.Editable
 import android.text.TextWatcher
 
+/*
+    класс для получения текста из EditText простейший вариант
+    без особых наваротов, для нормального использования надо доработать
+ */
 class EditTextWatcher : TextWatcher {
 
     private var _string:String = ""

@@ -19,10 +19,10 @@ object Repository {
                 job?.let { theJob ->
                     CoroutineScope(IO + theJob).launch {
                         withContext(Main) {
-                            val user = RetrofitClient.getBitmapFrom(command) {
-                                value = it
-                                theJob.complete()
-                            }
+//                            val user = RetrofitClient.getBitmapFrom(command) {
+//                                value = it
+//                                theJob.complete()
+//                            }
                         }
                     }
                 }
