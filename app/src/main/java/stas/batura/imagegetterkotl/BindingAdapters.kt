@@ -82,9 +82,9 @@ fun bindImage(catImageView: ImageView, bitmap: Bitmap?) {
 @BindingAdapter("getButtonStatus")
 fun bindButtonStatus(button:Button, status: Boolean) {
     if (status) {
-        button.visibility = View.INVISIBLE
+//        button.not
     } else{
-        button.visibility = View.VISIBLE
+//        button.visibility = View.VISIBLE
     }
 }
 
